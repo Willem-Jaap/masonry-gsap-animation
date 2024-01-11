@@ -10,7 +10,9 @@ const AlbertSansFont = Albert_Sans({
 const RootLayout = ({ children }: PropsWithChildren) => {
     return (
         <html className={AlbertSansFont.className}>
-            <body>{children}</body>
+            <body className="overflow-hidden bg-neutral-950 text-white">
+                <div className="h-screen w-full">{children}</div>
+            </body>
         </html>
     );
 };
