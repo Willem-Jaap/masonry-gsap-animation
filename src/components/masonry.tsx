@@ -23,13 +23,20 @@ const columns: string[][] = [
     [images[8], images[9], images[3], images[4]],
 ];
 
+const startingPixels = [0, -200, -100, -300];
+
 const Masonry = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     return (
         <div ref={containerRef} className="flex h-screen w-full -rotate-3 gap-8">
             {columns.map((column, columnIndex) => {
                 return (
-                    <div key={columnIndex} className="flex flex-col gap-8">
+                    <div
+                        key={columnIndex}
+                        className="flex flex-col gap-8"
+                        style={{
+                            transform: `translateY(${startingPixels[columnIndex]}px)`,
+                        }}>
                         {column.map(image => {
                             return (
                                 <Image
