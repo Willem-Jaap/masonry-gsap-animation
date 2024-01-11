@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import Image from 'next/image';
 
 const images = [
@@ -27,16 +28,63 @@ const startingPixels = [0, -200, -100, -300];
 
 const Masonry = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const firstColumnRef = useRef<HTMLDivElement>(null);
+    const secondColumnRef = useRef<HTMLDivElement>(null);
+    const thirdColumnRef = useRef<HTMLDivElement>(null);
+    const fourthColumnRef = useRef<HTMLDivElement>(null);
+    const refs = [firstColumnRef, secondColumnRef, thirdColumnRef, fourthColumnRef] as const;
+
+    useEffect(() => {
+        // Scrolling effect on every column infinitely
+        gsap.to(firstColumnRef.current, {
+            ease: 'none',
+            y: '50%',
+            duration: 8,
+            repeat: -1,
+        });
+        gsap.to(secondColumnRef.current, {
+            ease: 'none',
+            y: '50%',
+            duration: 8,
+            repeat: -1,
+        });
+        gsap.to(thirdColumnRef.current, {
+            ease: 'none',
+            y: '50%',
+            duration: 8,
+            repeat: -1,
+        });
+        gsap.to(fourthColumnRef.current, {
+            ease: 'none',
+            y: '50%',
+            duration: 8,
+            repeat: -1,
+        });
+    }, []);
+
     return (
-        <div ref={containerRef} className="flex h-screen w-full -rotate-3 gap-8">
+        <div ref={containerRef} className="flex h-screen w-full -rotate-3 gap-12">
             {columns.map((column, columnIndex) => {
                 return (
                     <div
                         key={columnIndex}
-                        className="flex flex-col gap-8"
+                        ref={refs[columnIndex]}
+                        className="flex flex-col gap-12"
                         style={{
-                            transform: `translateY(${startingPixels[columnIndex]}px)`,
+                            transform: `translateY(calc(-100% + ${startingPixels[columnIndex]}px))`,
                         }}>
+                        {column.map(image => {
+                            return (
+                                <Image
+                                    alt="Masonry image"
+                                    key={image}
+                                    src={`/assets/images/${image}`}
+                                    className="w-full object-cover"
+                                    width={444}
+                                    height={555}
+                                />
+                            );
+                        })}
                         {column.map(image => {
                             return (
                                 <Image
